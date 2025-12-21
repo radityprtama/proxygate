@@ -6,7 +6,7 @@ import (
 	"net/http"
 	"sync"
 
-	"github.com/router-for-me/CLIProxyAPI/v6/sdk/config"
+	"github.com/radityprtama/proxygate/v6/sdk/config"
 )
 
 // Provider validates credentials for incoming requests.

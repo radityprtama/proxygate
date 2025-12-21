@@ -11,7 +11,7 @@ import (
 	"time"
 
 	"github.com/gin-gonic/gin"
-	coreusage "github.com/router-for-me/CLIProxyAPI/v6/sdk/cliproxy/usage"
+	coreusage "github.com/radityprtama/proxygate/v6/sdk/cliproxy/usage"
 )
 
 var statisticsEnabled atomic.Bool

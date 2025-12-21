@@ -1,73 +1,221 @@
-# CLI Proxy API
+# ProxyGate
 
-English | [中文](README_CN.md)
+**Unified AI API gateway for OpenAI, Gemini, Claude, and Codex CLI tools.**
 
-A proxy server that provides OpenAI/Gemini/Claude/Codex compatible API interfaces for CLI.
+ProxyGate is a self-hosted proxy server that provides OpenAI-compatible API endpoints for multiple AI providers. Use your existing AI subscriptions with any compatible client, SDK, or development tool.
 
-It now also supports OpenAI Codex (GPT models) and Claude Code via OAuth.
+## Features
 
-So you can use local or multi-account CLI access with OpenAI(include Responses)/Gemini/Claude-compatible clients and SDKs.
+- **Multi-Provider Support** - OpenAI, Gemini, Claude, and Codex compatible API endpoints
+- **OAuth Authentication** - Simple CLI-based OAuth login flows for all supported providers
+- **Load Balancing** - Multi-account round-robin distribution with automatic failover
+- **Streaming Support** - Full streaming and non-streaming response support
+- **Function Calling** - Complete tool use and function calling support
+- **Multimodal** - Text and image input support
+- **Quota Management** - Automatic credential rotation and quota handling
+- **Embeddable SDK** - Reusable Go SDK for embedding the proxy in your applications
 
-## Sponsor
+## Installation
 
-[![z.ai](https://assets.router-for.me/english.png)](https://z.ai/subscribe?ic=8JVLJQFSKB)
+### Binary Release (Recommended)
 
-This project is sponsored by Z.ai, supporting us with their GLM CODING PLAN.
+Download the latest release from GitHub:
 
-GLM CODING PLAN is a subscription service designed for AI coding, starting at just $3/month. It provides access to their flagship GLM-4.6 model across 10+ popular AI coding tools (Claude Code, Cline, Roo Code, etc.), offering developers top-tier, fast, and stable coding experiences.
+```bash
+# Linux (amd64)
+curl -fsSL https://github.com/radityprtama/proxygate/releases/latest/download/proxygate_linux_amd64.tar.gz | tar xz
+sudo mv proxygate /usr/local/bin/
+proxygate --help
 
-Get 10% OFF GLM CODING PLAN：https://z.ai/subscribe?ic=8JVLJQFSKB
+# Linux (arm64)
+curl -fsSL https://github.com/radityprtama/proxygate/releases/latest/download/proxygate_linux_arm64.tar.gz | tar xz
+sudo mv proxygate /usr/local/bin/
+```
 
-## Overview
+### Docker
 
-- OpenAI/Gemini/Claude compatible API endpoints for CLI models
-- OpenAI Codex support (GPT models) via OAuth login
-- Claude Code support via OAuth login
-- Qwen Code support via OAuth login
-- iFlow support via OAuth login
-- Amp CLI and IDE extensions support with provider routing
-- Streaming and non-streaming responses
-- Function calling/tools support
-- Multimodal input support (text and images)
-- Multiple accounts with round-robin load balancing (Gemini, OpenAI, Claude, Qwen and iFlow)
-- Simple CLI authentication flows (Gemini, OpenAI, Claude, Qwen and iFlow)
-- Generative Language API Key support
-- AI Studio Build multi-account load balancing
-- Gemini CLI multi-account load balancing
-- Claude Code multi-account load balancing
-- Qwen Code multi-account load balancing
-- iFlow multi-account load balancing
-- OpenAI Codex multi-account load balancing
-- OpenAI-compatible upstream providers via config (e.g., OpenRouter)
-- Reusable Go SDK for embedding the proxy (see `docs/sdk-usage.md`)
+```bash
+docker pull radityprtama/proxygate:latest
+docker run -d -p 8317:8317 -v ./config.yaml:/proxygate/config.yaml radityprtama/proxygate
+```
 
-## Getting Started
+### Docker Compose
 
-CLIProxyAPI Guides: [https://help.router-for.me/](https://help.router-for.me/)
+```bash
+docker compose up -d
+```
 
-## Management API
+### Build from Source
 
-see [MANAGEMENT_API.md](https://help.router-for.me/management/api)
+```bash
+git clone https://github.com/radityprtama/proxygate.git
+cd proxygate
+go build -o proxygate ./cmd/server
+```
 
-## Amp CLI Support
+## Configuration
 
-CLIProxyAPI includes integrated support for [Amp CLI](https://ampcode.com) and Amp IDE extensions, enabling you to use your Google/ChatGPT/Claude OAuth subscriptions with Amp's coding tools:
+Create a `config.yaml` file:
 
-- Provider route aliases for Amp's API patterns (`/api/provider/{provider}/v1...`)
-- Management proxy for OAuth authentication and account features
-- Smart model fallback with automatic routing
-- **Model mapping** to route unavailable models to alternatives (e.g., `claude-opus-4.5` → `claude-sonnet-4`)
-- Security-first design with localhost-only management endpoints
+```yaml
+host: "127.0.0.1"
+port: 8317
+auth-dir: "~/.proxygate"
+api-keys:
+  - "your-api-key-here"
 
-**→ [Complete Amp CLI Integration Guide](https://help.router-for.me/agent-client/amp-cli.html)**
+# Enable debug logging
+debug: false
 
-## SDK Docs
+# Gemini API keys (optional)
+# gemini-api-key:
+#   - api-key: "AIzaSy..."
 
-- Usage: [docs/sdk-usage.md](docs/sdk-usage.md)
-- Advanced (executors & translators): [docs/sdk-advanced.md](docs/sdk-advanced.md)
-- Access: [docs/sdk-access.md](docs/sdk-access.md)
-- Watcher: [docs/sdk-watcher.md](docs/sdk-watcher.md)
-- Custom Provider Example: `examples/custom-provider`
+# Claude API keys (optional)
+# claude-api-key:
+#   - api-key: "sk-ant-..."
+
+# OpenAI compatibility providers (optional)
+# openai-compatibility:
+#   - name: "openrouter"
+#     base-url: "https://openrouter.ai/api/v1"
+#     api-key-entries:
+#       - api-key: "sk-or-..."
+```
+
+See `config.example.yaml` for the complete configuration reference.
+
+## OAuth Login Flows
+
+ProxyGate supports OAuth-based authentication for CLI tools:
+
+### Gemini CLI
+
+```bash
+proxygate -login
+```
+
+### OpenAI Codex
+
+```bash
+proxygate -codex-login
+```
+
+### Claude Code
+
+```bash
+proxygate -claude-login
+```
+
+### Qwen Code
+
+```bash
+proxygate -qwen-login
+```
+
+### iFlow
+
+```bash
+proxygate -iflow-login
+```
+
+Use `-no-browser` flag if you want to manually open the OAuth URL:
+
+```bash
+proxygate -login -no-browser
+```
+
+## Running as a Systemd Service
+
+Create `/etc/systemd/system/proxygate.service`:
+
+```ini
+[Unit]
+Description=ProxyGate AI API Gateway
+After=network.target
+
+[Service]
+Type=simple
+User=proxygate
+WorkingDirectory=/opt/proxygate
+ExecStart=/usr/local/bin/proxygate -config /etc/proxygate/config.yaml
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target
+```
+
+Enable and start:
+
+```bash
+sudo systemctl daemon-reload
+sudo systemctl enable proxygate
+sudo systemctl start proxygate
+```
+
+## Reverse Proxy with NGINX
+
+```nginx
+server {
+    listen 443 ssl http2;
+    server_name api.example.com;
+
+    ssl_certificate /etc/letsencrypt/live/api.example.com/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/api.example.com/privkey.pem;
+
+    location / {
+        proxy_pass http://127.0.0.1:8317;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "upgrade";
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_read_timeout 86400;
+    }
+}
+```
+
+## API Endpoints
+
+ProxyGate exposes the following API endpoints:
+
+| Endpoint | Description |
+|----------|-------------|
+| `POST /v1/chat/completions` | OpenAI-compatible chat completions |
+| `POST /v1/responses` | OpenAI Responses API |
+| `POST /v1beta/models/{model}:generateContent` | Gemini-compatible endpoint |
+| `POST /v1/messages` | Claude-compatible messages API |
+
+## SDK Usage
+
+ProxyGate includes an embeddable Go SDK:
+
+```go
+import (
+    "github.com/radityprtama/proxygate/v6/sdk/cliproxy"
+    "github.com/radityprtama/proxygate/v6/sdk/config"
+)
+
+cfg := &config.SDKConfig{
+    // Configuration options
+}
+
+service := cliproxy.NewService(cfg)
+// Use service...
+```
+
+See `docs/sdk-usage.md` for detailed SDK documentation.
+
+## Security Notes
+
+- **Use TLS in production** - Always deploy behind HTTPS
+- **Restrict management API** - Keep management endpoints on localhost only
+- **Secure API keys** - Use strong, unique API keys
+- **Rotate credentials** - Regularly rotate OAuth tokens and API keys
+- **Monitor access** - Enable logging to track API usage
 
 ## Contributing
 
@@ -78,29 +226,6 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 3. Commit your changes (`git commit -m 'Add some amazing feature'`)
 4. Push to the branch (`git push origin feature/amazing-feature`)
 5. Open a Pull Request
-
-## Who is with us?
-
-Those projects are based on CLIProxyAPI:
-
-### [vibeproxy](https://github.com/automazeio/vibeproxy)
-
-Native macOS menu bar app to use your Claude Code & ChatGPT subscriptions with AI coding tools - no API keys needed
-
-### [Subtitle Translator](https://github.com/VjayC/SRT-Subtitle-Translator-Validator)
-
-Browser-based tool to translate SRT subtitles using your Gemini subscription via CLIProxyAPI with automatic validation/error correction - no API keys needed
-
-### [CCS (Claude Code Switch)](https://github.com/kaitranntt/ccs)
-
-CLI wrapper for instant switching between multiple Claude accounts and alternative models (Gemini, Codex, Antigravity) via CLIProxyAPI OAuth - no API keys needed
-
-### [ProxyPal](https://github.com/heyhuynhgiabuu/proxypal)
-
-Native macOS GUI for managing CLIProxyAPI: configure providers, model mappings, and endpoints via OAuth - no API keys needed.
-
-> [!NOTE]  
-> If you developed a project based on CLIProxyAPI, please open a PR to add it to this list.
 
 ## License
 

@@ -1,4 +1,4 @@
-// Package config provides configuration management for the CLI Proxy API server.
+// Package config provides configuration management for the ProxyGate server.
 // It handles loading and parsing YAML configuration files, and provides structured
 // access to application settings including server port, authentication directory,
 // debug settings, proxy configuration, and API keys.
@@ -16,7 +16,7 @@ import (
 	"gopkg.in/yaml.v3"
 )
 
-const DefaultPanelGitHubRepository = "https://github.com/router-for-me/Cli-Proxy-API-Management-Center"
+const DefaultPanelGitHubRepository = "https://github.com/radityprtama/proxygate-management"
 
 // Config represents the application's configuration, loaded from a YAML file.
 type Config struct {

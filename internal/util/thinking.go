@@ -3,7 +3,7 @@ package util
 import (
 	"strings"
 
-	"github.com/router-for-me/CLIProxyAPI/v6/internal/registry"
+	"github.com/radityprtama/proxygate/v6/internal/registry"
 )
 
 // ModelSupportsThinking reports whether the given model has Thinking capability

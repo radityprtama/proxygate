@@ -6,8 +6,8 @@ import (
 	"strings"
 	"sync"
 
-	sdkaccess "github.com/router-for-me/CLIProxyAPI/v6/sdk/access"
-	sdkconfig "github.com/router-for-me/CLIProxyAPI/v6/sdk/config"
+	sdkaccess "github.com/radityprtama/proxygate/v6/sdk/access"
+	sdkconfig "github.com/radityprtama/proxygate/v6/sdk/config"
 )
 
 var registerOnce sync.Once

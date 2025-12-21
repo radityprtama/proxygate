@@ -19,5 +19,5 @@ jobs:
           cache: true
       - name: Build
         run: |
-          go build -o test-output ./cmd/server
-          rm -f test-output
+          go build -o proxygate ./cmd/server
+          rm -f proxygate

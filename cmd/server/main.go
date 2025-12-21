@@ -1,4 +1,4 @@
-// Package main provides the entry point for the CLI Proxy API server.
+// Package main provides the entry point for the ProxyGate server.
 // This server acts as a proxy that provides OpenAI/Gemini/Claude compatible API interfaces
 // for CLI models, allowing CLI models to be used with tools and libraries designed for standard AI APIs.
 package main
@@ -16,19 +16,19 @@ import (
 	"time"
 
 	"github.com/joho/godotenv"
-	configaccess "github.com/router-for-me/CLIProxyAPI/v6/internal/access/config_access"
-	"github.com/router-for-me/CLIProxyAPI/v6/internal/buildinfo"
-	"github.com/router-for-me/CLIProxyAPI/v6/internal/cmd"
-	"github.com/router-for-me/CLIProxyAPI/v6/internal/config"
-	"github.com/router-for-me/CLIProxyAPI/v6/internal/logging"
-	"github.com/router-for-me/CLIProxyAPI/v6/internal/managementasset"
-	"github.com/router-for-me/CLIProxyAPI/v6/internal/misc"
-	"github.com/router-for-me/CLIProxyAPI/v6/internal/store"
-	_ "github.com/router-for-me/CLIProxyAPI/v6/internal/translator"
-	"github.com/router-for-me/CLIProxyAPI/v6/internal/usage"
-	"github.com/router-for-me/CLIProxyAPI/v6/internal/util"
-	sdkAuth "github.com/router-for-me/CLIProxyAPI/v6/sdk/auth"
-	coreauth "github.com/router-for-me/CLIProxyAPI/v6/sdk/cliproxy/auth"
+	configaccess "github.com/radityprtama/proxygate/v6/internal/access/config_access"
+	"github.com/radityprtama/proxygate/v6/internal/buildinfo"
+	"github.com/radityprtama/proxygate/v6/internal/cmd"
+	"github.com/radityprtama/proxygate/v6/internal/config"
+	"github.com/radityprtama/proxygate/v6/internal/logging"
+	"github.com/radityprtama/proxygate/v6/internal/managementasset"
+	"github.com/radityprtama/proxygate/v6/internal/misc"
+	"github.com/radityprtama/proxygate/v6/internal/store"
+	_ "github.com/radityprtama/proxygate/v6/internal/translator"
+	"github.com/radityprtama/proxygate/v6/internal/usage"
+	"github.com/radityprtama/proxygate/v6/internal/util"
+	sdkAuth "github.com/radityprtama/proxygate/v6/sdk/auth"
+	coreauth "github.com/radityprtama/proxygate/v6/sdk/cliproxy/auth"
 	log "github.com/sirupsen/logrus"
 )
 
@@ -51,7 +51,7 @@ func init() {
 // It parses command-line flags, loads configuration, and starts the appropriate
 // service based on the provided flags (login, codex-login, or server mode).
 func main() {
-	fmt.Printf("CLIProxyAPI Version: %s, Commit: %s, BuiltAt: %s\n", buildinfo.Version, buildinfo.Commit, buildinfo.BuildDate)
+	fmt.Printf("ProxyGate Version: %s, Commit: %s, BuiltAt: %s\n", buildinfo.Version, buildinfo.Commit, buildinfo.BuildDate)
 
 	// Command-line flags to control the application's behavior.
 	var login bool
@@ -410,7 +410,7 @@ func main() {
 		return
 	}
 
-	log.Infof("CLIProxyAPI Version: %s, Commit: %s, BuiltAt: %s", buildinfo.Version, buildinfo.Commit, buildinfo.BuildDate)
+	log.Infof("ProxyGate Version: %s, Commit: %s, BuiltAt: %s", buildinfo.Version, buildinfo.Commit, buildinfo.BuildDate)
 
 	// Set the log level based on the configuration.
 	util.SetLogLevel(cfg)

@@ -1,5 +1,5 @@
 # Binaries
-cli-proxy-api
+proxygate
 *.exe
 
 # Configuration
@@ -39,3 +39,6 @@ _bmad/*
 # macOS
 .DS_Store
 ._*
+
+# Build artifacts
+dist/

@@ -10,9 +10,9 @@ import (
 	"encoding/json"
 	"strings"
 
-	client "github.com/router-for-me/CLIProxyAPI/v6/internal/interfaces"
-	"github.com/router-for-me/CLIProxyAPI/v6/internal/translator/gemini/common"
-	"github.com/router-for-me/CLIProxyAPI/v6/internal/util"
+	client "github.com/radityprtama/proxygate/v6/internal/interfaces"
+	"github.com/radityprtama/proxygate/v6/internal/translator/gemini/common"
+	"github.com/radityprtama/proxygate/v6/internal/util"
 	"github.com/tidwall/gjson"
 	"github.com/tidwall/sjson"
 )

@@ -8,9 +8,9 @@ import (
 	"os"
 	"time"
 
-	"github.com/router-for-me/CLIProxyAPI/v6/internal/config"
-	"github.com/router-for-me/CLIProxyAPI/v6/internal/util"
-	"github.com/router-for-me/CLIProxyAPI/v6/internal/watcher/diff"
+	"github.com/radityprtama/proxygate/v6/internal/config"
+	"github.com/radityprtama/proxygate/v6/internal/util"
+	"github.com/radityprtama/proxygate/v6/internal/watcher/diff"
 	"gopkg.in/yaml.v3"
 
 	log "github.com/sirupsen/logrus"

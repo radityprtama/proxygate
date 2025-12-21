@@ -5,8 +5,8 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/router-for-me/CLIProxyAPI/v6/internal/config"
-	coreauth "github.com/router-for-me/CLIProxyAPI/v6/sdk/cliproxy/auth"
+	"github.com/radityprtama/proxygate/v6/internal/config"
+	coreauth "github.com/radityprtama/proxygate/v6/sdk/cliproxy/auth"
 )
 
 func TestNewStableIDGenerator(t *testing.T) {

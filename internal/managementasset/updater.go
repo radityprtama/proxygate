@@ -17,16 +17,16 @@ import (
 	"sync/atomic"
 	"time"
 
-	"github.com/router-for-me/CLIProxyAPI/v6/internal/config"
-	"github.com/router-for-me/CLIProxyAPI/v6/internal/util"
-	sdkconfig "github.com/router-for-me/CLIProxyAPI/v6/sdk/config"
+	"github.com/radityprtama/proxygate/v6/internal/config"
+	"github.com/radityprtama/proxygate/v6/internal/util"
+	sdkconfig "github.com/radityprtama/proxygate/v6/sdk/config"
 	log "github.com/sirupsen/logrus"
 )
 
 const (
-	defaultManagementReleaseURL = "https://api.github.com/repos/router-for-me/Cli-Proxy-API-Management-Center/releases/latest"
+	defaultManagementReleaseURL = "https://api.github.com/repos/radityprtama/proxygate-management/releases/latest"
 	managementAssetName         = "management.html"
-	httpUserAgent               = "CLIProxyAPI-management-updater"
+	httpUserAgent               = "ProxyGate-management-updater"
 	updateCheckInterval         = 3 * time.Hour
 )
 

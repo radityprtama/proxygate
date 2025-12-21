@@ -13,9 +13,9 @@ import (
 	"strings"
 	"time"
 
-	"github.com/router-for-me/CLIProxyAPI/v6/internal/config"
-	"github.com/router-for-me/CLIProxyAPI/v6/internal/util"
-	coreauth "github.com/router-for-me/CLIProxyAPI/v6/sdk/cliproxy/auth"
+	"github.com/radityprtama/proxygate/v6/internal/config"
+	"github.com/radityprtama/proxygate/v6/internal/util"
+	coreauth "github.com/radityprtama/proxygate/v6/sdk/cliproxy/auth"
 	log "github.com/sirupsen/logrus"
 )
 

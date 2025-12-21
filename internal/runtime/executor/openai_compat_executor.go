@@ -10,11 +10,11 @@ import (
 	"strings"
 	"time"
 
-	"github.com/router-for-me/CLIProxyAPI/v6/internal/config"
-	"github.com/router-for-me/CLIProxyAPI/v6/internal/util"
-	cliproxyauth "github.com/router-for-me/CLIProxyAPI/v6/sdk/cliproxy/auth"
-	cliproxyexecutor "github.com/router-for-me/CLIProxyAPI/v6/sdk/cliproxy/executor"
-	sdktranslator "github.com/router-for-me/CLIProxyAPI/v6/sdk/translator"
+	"github.com/radityprtama/proxygate/v6/internal/config"
+	"github.com/radityprtama/proxygate/v6/internal/util"
+	cliproxyauth "github.com/radityprtama/proxygate/v6/sdk/cliproxy/auth"
+	cliproxyexecutor "github.com/radityprtama/proxygate/v6/sdk/cliproxy/executor"
+	sdktranslator "github.com/radityprtama/proxygate/v6/sdk/translator"
 	log "github.com/sirupsen/logrus"
 	"github.com/tidwall/sjson"
 )
