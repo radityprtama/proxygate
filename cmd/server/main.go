@@ -66,6 +66,7 @@ func main() {
 	var vertexImport string
 	var configPath string
 	var password string
+	var completion string
 
 	// Define command-line flags for different operation modes.
 	flag.BoolVar(&login, "login", false, "Login Google Account")
@@ -79,6 +80,7 @@ func main() {
 	flag.StringVar(&projectID, "project_id", "", "Project ID (Gemini only, not required)")
 	flag.StringVar(&configPath, "config", DefaultConfigPath, "Configure File Path")
 	flag.StringVar(&vertexImport, "vertex-import", "", "Import Vertex service account key JSON file")
+	flag.StringVar(&completion, "completion", "", "Generate shell completion script (bash, zsh, fish, powershell)")
 	flag.StringVar(&password, "password", "", "")
 
 	flag.CommandLine.Usage = func() {
@@ -444,7 +446,13 @@ func main() {
 
 	// Handle different command modes based on the provided flags.
 
-	if vertexImport != "" {
+	if completion != "" {
+		if err := cmd.GenerateCompletion(completion); err != nil {
+			log.Errorf("failed to generate completion: %v", err)
+			os.Exit(1)
+		}
+		return
+	} else if vertexImport != "" {
 		// Handle Vertex service account import
 		cmd.DoVertexImport(cfg, vertexImport)
 	} else if login {
