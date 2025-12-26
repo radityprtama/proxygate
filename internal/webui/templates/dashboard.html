@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ProxyGate Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-900 text-gray-100 min-h-screen">
+    <nav class="bg-gray-800 border-b border-gray-700">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center h-16">
+                <span class="text-xl font-bold">ProxyGate</span>
+                <div class="ml-auto flex space-x-4">
+                    <a href="/ui/" class="text-gray-300 hover:text-white px-3 py-2">Dashboard</a>
+                    <a href="/ui/auth" class="text-gray-300 hover:text-white px-3 py-2">Auth</a>
+                    <a href="/ui/config" class="text-gray-300 hover:text-white px-3 py-2">Config</a>
+                    <a href="/ui/logs" class="text-gray-300 hover:text-white px-3 py-2">Logs</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <main class="max-w-7xl mx-auto px-4 py-8">
+        <h1 class="text-3xl font-bold mb-8">Dashboard</h1>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div class="bg-gray-800 rounded-lg p-6 border border-gray-700">
+                <h2 class="text-lg font-semibold mb-2">Server Status</h2>
+                <p class="text-2xl font-bold text-green-400">Running</p>
+                <p class="text-gray-400 text-sm">ProxyGate API Server</p>
+            </div>
+            <div class="bg-gray-800 rounded-lg p-6 border border-gray-700">
+                <h2 class="text-lg font-semibold mb-2">Auth Files</h2>
+                <p class="text-2xl font-bold text-blue-400" id="authCount">Loading...</p>
+                <p class="text-gray-400 text-sm">Configured providers</p>
+            </div>
+            <div class="bg-gray-800 rounded-lg p-6 border border-gray-70">
+                <h2 class="text-lg font-semibold mb-2">Supported Providers</h2>
+                <div class="grid grid-cols-2 gap-2 text-sm">
+                    <div>• Claude</div>
+                    <div>• Gemini</div>
+                    <div>• OpenAI</div>
+                    <div>• Codex</div>
+                    <div>• Antigravity</div>
+                    <div>• IFlow</div>
+                    <div>• GitHub Copilot</div>
+                    <div>• Kiro/Amazon Q</div>
+                    <div>• Qwen</div>
+                </div>
+            </div>
+        </div>
+        <div class="mt-8 bg-gray-800 rounded-lg p-6 border border-gray-700">
+            <h2 class="text-lg font-semibold mb-4">Quick Actions</h2>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <button onclick="location.href='/ui/auth'" class="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded">Manage Auth</button>
+                <button onclick="location.href='/ui/config'" class="bg-gray-600 hover:bg-gray-700 px-4 py-2 rounded">Config</button>
+                <button onclick="location.href='/ui/logs'" class="bg-gray-600 hover:bg-gray-700 px-4 py-2 rounded">View Logs</button>
+            </div>
+        </div>
+    </main>
+    <script>
+        fetch('/ui/auth')
+            .then(r => r.text())
+            .then(html => {
+                const count = html.match(/(\d+) auth files/);
+                if (count) {
+                    document.getElementById('authCount').textContent = count[1];
+                }
+            })
+            .catch(err => console.error(err));
+    </script>
+</body>
+</html>

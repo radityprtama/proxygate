@@ -33,6 +33,9 @@ type Config struct {
 	// RemoteManagement nests management-related options under 'remote-management'.
 	RemoteManagement RemoteManagement `yaml:"remote-management" json:"-"`
 
+	// WebUI holds web interface configuration.
+	WebUI WebUI `yaml:"webui" json:"-"`
+
 	// AuthDir is the directory where authentication token files are stored.
 	AuthDir string `yaml:"auth-dir" json:"-"`
 
@@ -112,6 +115,14 @@ type RemoteManagement struct {
 	// PanelGitHubRepository overrides the GitHub repository used to fetch the management panel asset.
 	// Accepts either a repository URL (https://github.com/org/repo) or an API releases endpoint.
 	PanelGitHubRepository string `yaml:"panel-github-repository"`
+}
+
+// WebUI holds web interface configuration.
+type WebUI struct {
+	// Enabled enables or disables the Web UI.
+	Enabled bool `yaml:"enabled"`
+	// Path is the URL path where the Web UI is served. Default is "/ui".
+	Path string `yaml:"path"`
 }
 
 // QuotaExceeded defines the behavior when API quota limits are exceeded.
@@ -350,6 +361,9 @@ func LoadConfigOptional(configFile string, optional bool) (*Config, error) {
 	cfg.DisableCooling = false
 	cfg.AmpCode.RestrictManagementToLocalhost = false // Default to false: API key auth is sufficient
 	cfg.RemoteManagement.PanelGitHubRepository = DefaultPanelGitHubRepository
+	// WebUI defaults
+	cfg.WebUI.Enabled = false
+	cfg.WebUI.Path = "/ui"
 	if err = yaml.Unmarshal(data, &cfg); err != nil {
 		if optional {
 			// In cloud deploy mode, if YAML parsing fails, return empty config instead of error.

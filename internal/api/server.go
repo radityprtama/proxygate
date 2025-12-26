@@ -34,6 +34,7 @@ import (
 	"github.com/radityprtama/proxygate/v6/sdk/api/handlers/gemini"
 	"github.com/radityprtama/proxygate/v6/sdk/api/handlers/openai"
 	"github.com/radityprtama/proxygate/v6/sdk/cliproxy/auth"
+	"github.com/radityprtama/proxygate/v6/internal/webui"
 	log "github.com/sirupsen/logrus"
 	"gopkg.in/yaml.v3"
 )
@@ -150,6 +151,9 @@ type Server struct {
 	// management handler
 	mgmt *managementHandlers.Handler
 
+	// webui handler
+	webui *webui.Handler
+
 	// ampModule is the Amp routing module for model mapping hot-reload
 	ampModule *ampmodule.AmpModule
 
@@ -253,6 +257,8 @@ func NewServer(cfg *config.Config, authManager *auth.Manager, accessManager *sdk
 	auth.SetQuotaCooldownDisabled(cfg.DisableCooling)
 	// Initialize management handler
 	s.mgmt = managementHandlers.NewHandler(cfg, configFilePath, authManager)
+	// Initialize Web UI handler
+	s.webui = webui.NewHandler(cfg, authManager)
 	if optionState.localPassword != "" {
 		s.mgmt.SetLocalPassword(optionState.localPassword)
 	}
@@ -419,6 +425,11 @@ func (s *Server) setupRoutes() {
 		c.Header("Content-Type", "text/html; charset=utf-8")
 		c.String(http.StatusOK, oauthCallbackSuccessHTML)
 	})
+
+	// Web UI routes
+	if s.webui != nil {
+		s.webui.RegisterRoutes(s.engine)
+	}
 
 	// Management routes are registered lazily by registerManagementRoutes when a secret is configured.
 }
